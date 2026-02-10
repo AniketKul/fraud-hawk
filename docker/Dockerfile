@@ -1,5 +1,5 @@
 # GPU Fraud Detection Pipeline
-# Base: NVIDIA RAPIDS with CUDA 12
+# Base: NVIDIA RAPIDS with CUDA 12 (includes cudf, cuml, xgboost, cupy)
 FROM nvcr.io/nvidia/rapidsai/base:24.02-cuda12.0-py3.10
 
 WORKDIR /app
@@ -7,9 +7,8 @@ WORKDIR /app
 # Copy requirements first for better caching
 COPY requirements.txt .
 
-# Install Python dependencies and fix nvtx compatibility with newer cudf
-RUN pip install --no-cache-dir -r requirements.txt && \
-    pip install --no-cache-dir 'nvtx>=0.2.11'
+# Install additional Python dependencies (RAPIDS packages come from base image)
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy source code
 COPY . .

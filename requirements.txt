@@ -1,19 +1,8 @@
-# RAPIDS GPU Data Processing
-cudf-cu12>=24.02
-cuml-cu12>=24.02
-dask-cudf-cu12>=24.02
-dask[distributed]>=2024.1.0
+# RAPIDS GPU packages (cudf, cuml, xgboost, cupy, pandas, numpy, pyarrow,
+# scikit-learn, rich, click, fastapi) are pre-installed in the base image.
+# Do NOT reinstall them via pip to avoid CUDA version conflicts.
 
-# XGBoost with GPU
-xgboost>=2.0.0
-
-# Data formats
-pandas>=2.0.0
-numpy>=1.24.0
-pyarrow>=14.0.0
-
-# API & Serving
-fastapi>=0.109.0
+# API & Serving (uvicorn not in base image)
 uvicorn[standard]>=0.27.0
 pydantic>=2.5.0
 
@@ -25,8 +14,6 @@ optuna>=3.5.0
 
 # Utilities
 python-dotenv>=1.0.0
-click>=8.1.0
-rich>=13.7.0
 tqdm>=4.66.0
 
 # Testing
