@@ -1,0 +1,13 @@
+data/
+models/
+mlruns/
+.git/
+.gitignore
+__pycache__/
+*.py[cod]
+.env
+.env.local
+*.ipynb_checkpoints
+.idea/
+.vscode/
+.cursor/
