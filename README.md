@@ -1,4 +1,4 @@
-# GPU-Accelerated Fraud Detection Pipeline
+# Fraud Hawk — GPU-Accelerated Fraud Detection Pipeline
 
 ## Architecture Diagram
 
@@ -26,7 +26,7 @@ Results are saved as a new **Feature Parquet** file.
 
 ### Stage 3: Training (`src/training/`)
 
-**`XGBoostTrainer`** loads the feature Parquet, converts to DMatrix format, and trains with `gpu_hist` tree method on the GPU. It uses an 80/20 stratified split, early stopping (50 rounds), and `scale_pos_weight=66` to handle the 1.5% fraud class imbalance. **`ModelEvaluator`** then computes AUC-ROC, precision-recall curves, and optimal thresholds. The trained model is saved as a **Model Artifact** (`xgboost_fraud.json` + `feature_columns.json` sidecar).
+**`XGBoostTrainer`** loads the feature Parquet, converts to DMatrix format, and trains with `hist` tree method on CUDA. It uses an 80/20 stratified split, early stopping (50 rounds), and `scale_pos_weight=66` to handle the 1.5% fraud class imbalance. **`ModelEvaluator`** then computes AUC-ROC, precision-recall curves, and optimal thresholds. The trained model is saved as a **Model Artifact** (`xgboost_fraud.json` + `feature_columns.json` sidecar).
 
 ### Stage 4: Inference (`src/inference/`)
 
@@ -55,7 +55,7 @@ run_pipeline.py run-all -n 10000000
   |
   |-- generate   CuPy -> cuDF -> Parquet (data/)
   |-- features   Parquet -> cuDF groupby/merge -> Feature Parquet
-  +-- train      Feature Parquet -> DMatrix -> gpu_hist -> model JSON
+  +-- train      Feature Parquet -> DMatrix -> hist (CUDA) -> model JSON
                                                  |
 docker-compose up inference                      |
   +-- FastAPI loads model <----------------------+
